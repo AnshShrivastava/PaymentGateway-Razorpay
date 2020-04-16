@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <!-- Bootstrap Meta tags-->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <!-- Bootstrap CSS-->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <style>
+            .razorpay-payment-button{
+                display: inline-block;
+                color: white;
+                background-color: #007bff;
+                padding: .375rem .75rem;
+                font-size: 1rem;
+                line-height: 1.5;
+                border: 1px solid;
+                border-radius: .25rem;
+                transition: color .15s
+                ease-in-out, background-color .15s
+                ease-in-out,border-color .15s 
+                ease-in-out,box-shadow .15s 
+                ease-in-out;
+                font-weight: 400;
+                text-align: center;
+                vertical-align: middle;
+                
+            }
+            .razorpay-payment-button:hover{
+                background-color: #005ec3;
+            }
+
+        </style>
+        <title>
+            Checkout
+        </title>
+    </head>
+    <!-- HTML BODY-->
+    <body>
+        <!-- Form Labels-->
+        <div class="container-sm" style="margin-top: 30px;">
+        <div class="form-group">
+        Name:   <input type="text" class="form-control" name="shopping_order_name" value="{{ obj.name}}"></br>
+        </div>
+        <div class="form-group">
+        Email:  <input type="text" class="form-control" name="shopping_order_email" value="{{ obj.email}}"></br>
+        </div>
+        <div class="form-group">
+        Amount: <input type="text" class="form-control" name="shopping_order_amount" value="{{ obj.amount}}"></br>
+        </div>
+        <div class="form-group">
+        Description: <input type="text" class="form-control" name="shopping_order_despription" value="{{ obj.Description }}"></br>
+        </div>
+        <!-- Form Labels end-->
+        </br>
+        <div class="alert alert-success">Validated</div>
+        </br>
+        <!-- Razorpay Checkout Client side-->
+        <form action="{% url 'payment' %}" method="POST">
+            <script
+                src="https://checkout.razorpay.com/v1/checkout.js"
+                data-key="rzp_test_oNkHkLAvOKgI49"
+                data-Merchant-id ="DqR2MLH78ReBOE"
+                data-amount="{% widthratio obj.amount 1 100 %}"
+                data-name="PAYMENT TEST"
+                data-description="Purchase Description"
+                data-image="" 
+                data-description="NO FIELD"
+                data-prefill.name="{{obj.name}}"
+                data-prefill.Description="{{obj.Description}}"
+                data-prefill.email="{{obj.email}}"
+                data-prefill.contact="{{obj.mobile}}"
+                data-notes.shopping_order_id="{{obj.uuid}}">
+            </script>
+            <input type="hidden" name="payment_order_id" value="{{obj.uuid}}"></br>
+            <input type="hidden"  name="payment_order_amount" value="{{ obj.amount}}"></br>
+        </form>
+        </div>
+        <!--Razorpay Client side ends-->
+    </body>
+</html>
